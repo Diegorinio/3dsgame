@@ -10,30 +10,53 @@
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
+#include "player.h"
+#include "enemy.h"
 
-#define SCREEN_WIDTH 480
-#define SCREEN_HEIGHT 240
+// #define SCREEN_WIDTH 480
+// #define SCREEN_HEIGHT 240
 
 
-struct Player 
+//player
+// struct Player 
+// {
+// 	float v1x,v1y,v2x,v2y,v3x,v3y;
+// 	float moveX, moveY;
+// 	float PlayerCollidersX[2];
+// 	float PlayerCollidersY;
+// 	u32 Color;
+// };
+// void SetPlayer(struct Player *player);
+// void DrawPlayer(struct Player *player);
+// void PlayerCheckPosition(struct Player *player);
+
+
+//enemy
+// struct Enemy
+// {
+// 	float v1x,v1y,v2x,v2y,v3x,v3y;
+// 	float RandomEnemyXPosition;
+// 	float moveX, moveY;
+// 	float EnemyCollidersX[2]; 
+// 	float EnemyCollidersY;
+// 	u32 Color;
+// };
+
+// void SetEnemy(struct Enemy *enemy);
+// void DrawEnemy(struct Enemy *enemy);
+// void EnemyCheckCollisions(struct Enemy *enemy);
+// bool EnemyCheckCollisionsWithPlayer(struct Enemy *enemy, struct Player *player);
+
+
+struct Bullet
 {
-	float v1x,v1y,v2x,v2y,v3x,v3y;
+	float v1x, v1y, v2x, v2y, v3x, v3y;
 	float moveX, moveY;
+	float BulletCollidersX[2];
+	float BulletColliderY;
 	u32 Color;
 };
-void SetPlayer(struct Player *player);
-void DrawPlayer(struct Player *player);
 
-struct Enemy
-{
-	float v1x,v1y,v2x,v2y,v3x,v3y;
-	float moveX, moveY;
-	float enemyCollider[2];
-	u32 Color;
-};
-
-void SetEnemy(struct Enemy *enemy);
-void DrawEnemy(struct Enemy *enemy);
 
 int GenerateRandomInt(int min, int max);
 
@@ -48,8 +71,6 @@ int main(int argc, char **argv)
 	u32 clrClear = C2D_Color32(0xFF, 0xD8, 0xB0, 0x68);
 	u32 clrRed   = C2D_Color32(0xFF, 0x00, 0x00, 0xFF);
 	u32 clrBlack  = C2D_Color32(0x00, 0x00, 0x00, 0xFF);
-	
-	float xMove;
 	
 	//initialize Player
 	struct Player MainPlayer;
@@ -78,17 +99,7 @@ int main(int argc, char **argv)
 	
 	
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
-	
-	
-	int enemyMove;
-	int enemyVerticleY;
-	int RandomEnemyXPosition = GenerateRandomInt(50, SCREEN_WIDTH-100);
-	int PlayerVerticle = SCREEN_HEIGHT - 25;
 
-	//PlayerBullet
-	int PlayerBulletXPos;
-	int PlayerBulletYPos;
-	bool BulletExist= false;
 	// Main loop
 	while (aptMainLoop())
 	{
@@ -128,65 +139,24 @@ int main(int argc, char **argv)
 		
 		//player
 		DrawPlayer(&MainPlayer);
+		PlayerCheckPosition(&MainPlayer);
 
 		//enemy
-		// C2D_DrawTriangle(RandomEnemyXPosition,enemyMove, clrRed,
-		// RandomEnemyXPosition-15, enemyMove-15, clrRed,
-		// RandomEnemyXPosition+15, enemyMove-15, clrRed, 1);
 		DrawEnemy(&Enemy);
 		Enemy.moveY +=3;
+		EnemyCheckCollisions(&Enemy);
+		printf("%f", Enemy.v1y);
 		
 		C2D_DrawRectangle(SCREEN_WIDTH - 50, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
 		
-
-		if(!BulletExist)
+		if(EnemyCheckCollisionsWithPlayer(&Enemy, &MainPlayer))
 		{
-			PlayerBulletYPos=PlayerVerticle-2;
-			PlayerBulletXPos = xMove;
+			MainScore -=1;
 		}
 		else
 		{
-			PlayerBulletYPos-=20;
 
-			//Bullet Behaviour
-					if(SCREEN_WIDTH/2-10+PlayerBulletXPos >= RandomEnemyXPosition-15 && SCREEN_WIDTH/2-10+PlayerBulletXPos <= RandomEnemyXPosition+15)
-		{
-			if(PlayerBulletYPos <= enemyMove)
-			{
-				BulletExist = false;
-				MainScore+=1;
-				enemyMove = 0;
-				RandomEnemyXPosition = GenerateRandomInt(50, SCREEN_WIDTH-100);
-			}
 		}
-		}
-		if(PlayerBulletYPos <= 0)
-		{
-			BulletExist= false;
-		}
-
-		//Bullet behaviour
-
-		//bullet
-		C2D_DrawTriangle(SCREEN_WIDTH/2-12.5+PlayerBulletXPos, PlayerBulletYPos+5, clrBlack, 
-			SCREEN_WIDTH/2-20+PlayerBulletXPos,  PlayerBulletYPos+15, clrBlack,
-			SCREEN_WIDTH/2+PlayerBulletXPos-5, PlayerBulletYPos+15, clrBlack, 0);
-
-		
-		if(enemyMove >= SCREEN_HEIGHT)
-		{
-			enemyMove= 0;
-			RandomEnemyXPosition = GenerateRandomInt(50, SCREEN_WIDTH-100);
-			MainScore-=1;
-		}
-					if(kDown & KEY_A)
-					{
-						//BULLET
-						BulletExist = true;
-						// MainScore+=1;
-						// enemyMove = 0;
-						// RandomEnemyXPosition = GenerateRandomInt(50, SCREEN_WIDTH-100);
-					}
 		C3D_FrameEnd(0);
 	}
 	
@@ -205,43 +175,84 @@ int GenerateRandomInt(int min, int max)
 	return (rand() % (max-min+1))+min;
 }
 
-void SetPlayer(struct Player *player)
-{
-	player->v1x = SCREEN_WIDTH/2-12.5+player->moveX;
-	player->v1y = SCREEN_HEIGHT - 25;
-	player->v2x = SCREEN_WIDTH/2-25+player->moveX;
-	player->v2y = SCREEN_HEIGHT;
-	player->v3x = SCREEN_WIDTH/2+player->moveX;
-	player->v3y = SCREEN_HEIGHT;
-	player->Color = C2D_Color32(0x00, 0xFF, 0x00, 0xFF);
-	player->moveX = 0;
-	player->moveY = 0;
-};
+// void SetPlayer(struct Player *player)
+// {
+// 	player->v1x = SCREEN_WIDTH/2-12.5+player->moveX;
+// 	player->v1y = SCREEN_HEIGHT - 25;
+// 	player->v2x = SCREEN_WIDTH/2-25+player->moveX;
+// 	player->v2y = SCREEN_HEIGHT;
+// 	player->v3x = SCREEN_WIDTH/2+player->moveX;
+// 	player->v3y = SCREEN_HEIGHT;
+// 	player->Color = C2D_Color32(0x00, 0xFF, 0x00, 0xFF);
+// 	player->moveX = 0;
+// 	player->moveY = 0;
+// 	player->PlayerCollidersX[0] = player->v2x;
+// 	player->PlayerCollidersX[1] = player->v3x;
+// 	player->PlayerCollidersY = player->v1y;
+// };
 
-void DrawPlayer(struct Player *player)
-{
-	C2D_DrawTriangle(player->v1x+player->moveX, player->v1y, player->Color, 
-			player->v2x+player->moveX,  player->v2y, player->Color,
-			player->v3x+player->moveX, player->v3y, player->Color, 1);		
-};
+// void PlayerCheckPosition(struct Player *player)
+// {
+// 	player->PlayerCollidersX[0] = player->v2x+player->moveX;
+// 	player->PlayerCollidersX[1] = player->v3x+player->moveX;
+// }
 
-void SetEnemy(struct Enemy *enemy)
-{
-	int randomEnemyX = GenerateRandomInt(15, SCREEN_WIDTH-15);
-	enemy->v1x = randomEnemyX;
-	enemy->v1y =0;
-	enemy->v2x = randomEnemyX-15;
-	enemy->v2y = -15;
-	enemy->v3x = randomEnemyX+15;
-	enemy->v3y = -15;
-	enemy->Color = C2D_Color32(0xFF, 0x00, 0x00, 0xFF);
-	enemy->moveX = 0;
-	enemy->moveY = 0;
-}
+// void DrawPlayer(struct Player *player)
+// {
+// 	C2D_DrawTriangle(player->v1x+player->moveX, player->v1y, player->Color, 
+// 			player->v2x+player->moveX,  player->v2y, player->Color,
+// 			player->v3x+player->moveX, player->v3y, player->Color, 1);		
+// };
 
-void DrawEnemy(struct Enemy *enemy)
-{
-	C2D_DrawTriangle(enemy->v1x,enemy->v1y+enemy->moveY,enemy->Color,
-	enemy->v2x,enemy->v2y+enemy->moveY,enemy->Color,
-	enemy->v3x, enemy->v3y+enemy->moveY,enemy->Color,1);
-}
+// void SetEnemy(struct Enemy *enemy)
+// {
+// 	int randomEnemyX = GenerateRandomInt(80, SCREEN_WIDTH-80);
+// 	enemy->RandomEnemyXPosition = randomEnemyX;
+// 	enemy->v1x = enemy->RandomEnemyXPosition;
+// 	enemy->v1y =0;
+// 	enemy->v2x = enemy->RandomEnemyXPosition-15;
+// 	enemy->v2y = -15;
+// 	enemy->v3x = enemy->RandomEnemyXPosition+15;
+// 	enemy->v3y = -15;
+// 	enemy->Color = C2D_Color32(0xFF, 0x00, 0x00, 0xFF);
+// 	enemy->moveX = 0;
+// 	enemy->moveY = 0;
+// 	enemy->EnemyCollidersX[0] = enemy->v2x;
+// 	enemy->EnemyCollidersX[1] = enemy->v3x;
+// 	enemy->EnemyCollidersY = enemy->v1y;
+// }
+
+// void DrawEnemy(struct Enemy *enemy)
+// {
+
+// 	//draw player
+// 	C2D_DrawTriangle(enemy->v1x,enemy->v1y,enemy->Color,
+// 	enemy->v2x,enemy->v2y+enemy->moveY,enemy->Color,
+// 	enemy->v3x, enemy->v3y+enemy->moveY,enemy->Color,1);
+// }
+
+// void EnemyCheckCollisions(struct Enemy *enemy)
+// {
+// 		//update enemy position
+// 	enemy->v1y = enemy->moveY;
+// 	enemy->EnemyCollidersY = enemy->v1y;
+
+// 	if(enemy->EnemyCollidersY >= SCREEN_HEIGHT+10)
+// 	{
+// 		enemy->moveY = -15;
+// 		SetEnemy(enemy);
+// 	}
+// }
+
+// bool EnemyCheckCollisionsWithPlayer(struct Enemy *enemy, struct Player *player)
+// {
+// 	if(player->PlayerCollidersX[0] >= enemy->EnemyCollidersX[0] && player->PlayerCollidersX[1] <= enemy->EnemyCollidersX[1])
+// 	{
+// 		if(player->PlayerCollidersY <= enemy->EnemyCollidersY)
+// 		{
+// 			return true;
+// 		}
+// 		return false;
+// 	}
+// 	return false;
+// }
