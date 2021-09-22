@@ -25,7 +25,6 @@ void SetPlayer(struct Player *player)
 	player->PlayerCollidersX[1] = SCREEN_WIDTH/2 + player->width;
 	player->PlayerCollidersY[0] = SCREEN_HEIGHT/2 + player->height;
 	player->PlayerCollidersX[1] = SCREEN_HEIGHT/2 - player->height;
-	C2D_SpriteSetPos(player->sprite, player->posX, player->posY);
 };
 
 void PlayerCheckPosition(struct Player *player)

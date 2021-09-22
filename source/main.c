@@ -135,10 +135,6 @@ int main(int argc, char **argv)
 		{
 			MainScore -=1;
 		}
-		else
-		{
-
-		}
 		C2D_DrawRectangle(SCREEN_WIDTH - 100, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
 
 		

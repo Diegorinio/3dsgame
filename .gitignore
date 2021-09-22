@@ -1,5 +1,6 @@
-*3dsx
-*elf
-*smdh
-build/*
-**/.vscode/
+.elf
+.3dsx
+.smdh
+/build
+*.vscode/**
+/romfs
