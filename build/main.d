@@ -106,7 +106,8 @@ main.o: C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/main.c \
  C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/player.h \
  C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/enemytriangle.h \
  C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/gui.h \
- C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/sprites.h
+ C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/sprites.h \
+ C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/bullet.h
 C:/devkitPro/libctru/include/3ds.h:
 C:/devkitPro/libctru/include/3ds/types.h:
 C:/devkitPro/libctru/include/3ds/result.h:
@@ -215,3 +216,4 @@ C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/player.h:
 C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/enemytriangle.h:
 C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/gui.h:
 C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/sprites.h:
+C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/bullet.h:

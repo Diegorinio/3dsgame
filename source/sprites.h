@@ -33,6 +33,5 @@ void DrawSprite(int id)
 
 void MoveSprite(int spriteID)
 {
-
 	C2D_SpriteSetPos(&sprites[spriteID].spr, 100, 100);
 }

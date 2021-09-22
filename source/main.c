@@ -9,6 +9,7 @@
 #include "enemytriangle.h"
 #include "gui.h"
 #include "sprites.h"
+#include "bullet.h"
 
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 240
@@ -33,6 +34,12 @@ int main(int argc, char **argv)
 	//initialize Enemy
 	struct TriEnemy Enemy;
 	TriSetEnemy(&Enemy);
+
+	struct Bullet Rocket[99];
+	// SetBullet(&Rocket, &MainPlayer);
+	// Rocket.sprite = &sprites[1].spr;
+	bool isRocketExist = false;
+	int rocketCount=0;
 	
 	
 	int MainScore;
@@ -73,7 +80,8 @@ int main(int argc, char **argv)
 		// printf("\x1b[2;0H%03d; %03d", touch.px, touch.py);
 		if(kDown & KEY_A)
 		{
-
+			SetBullet(&Rocket, &MainPlayer);
+			isRocketExist = true;
 		}
 		if(kDown & KEY_B)
 		{
@@ -83,7 +91,7 @@ int main(int argc, char **argv)
 		{
 			if(MainPlayer.PlayerCollidersY[0] > -100)
 			{
-				MovePlayerY(&MainPlayer, -10);
+				MovePlayerY(&MainPlayer, -5);
 			}
 		}
 
@@ -91,7 +99,7 @@ int main(int argc, char **argv)
 		{
 			if(MainPlayer.PlayerCollidersY[0] < 100)
 			{
-				MovePlayerY(&MainPlayer, 10);
+				MovePlayerY(&MainPlayer, 5);
 			}
 			else
 			{
@@ -102,7 +110,7 @@ int main(int argc, char **argv)
 		{
 			if(MainPlayer.PlayerCollidersX[1] < SCREEN_WIDTH)
 			{
-				MovePlayerX(&MainPlayer, 10);
+				MovePlayerX(&MainPlayer, 5);
 			}
 		}
 		if(kHeld & KEY_LEFT)
@@ -112,16 +120,19 @@ int main(int argc, char **argv)
 				MovePlayerX(&MainPlayer, -10);
 			}
 		}
-		if(kHeld & KEY_DOWN)
-		{
-			// ShowMeSomething("Down");
-		}
 
 		//Draw on top
 		C2D_SceneBegin(top);
 
 		C2D_TargetClear(top, clrClear);
 		
+		if(isRocketExist)
+		{
+			BulletCheckPosition(&Rocket);
+			DrawBullet(&Rocket);
+			moveBullet(&Rocket, -5);
+		}
+
 		//player
 		DrawPlayer(&MainPlayer);
 		PlayerCheckPosition(&MainPlayer);

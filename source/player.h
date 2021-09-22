@@ -9,7 +9,6 @@ struct Player
 	float moveX, moveY;
 	float PlayerCollidersX[2];
 	float PlayerCollidersY[2];
-	u32 Color;
 };
 
 void SetPlayer(struct Player *player)
@@ -18,7 +17,6 @@ void SetPlayer(struct Player *player)
 	player->height = 2;
 	player->posX = SCREEN_WIDTH/2;
 	player->posY = SCREEN_HEIGHT/2;
-	player->Color = C2D_Color32(0x00, 0xFF, 0x00, 0xFF);
 	player->moveX = 0;
 	player->moveY = 0;
 	player->PlayerCollidersX[0] = SCREEN_WIDTH/2 - player->width;
@@ -47,12 +45,12 @@ void DrawPlayer(struct Player *player)
 	// 		player->v3x+player->moveX, player->v3y, player->Color, 1);		
 };
 
-void MovePlayerX(struct Player *player, float moveDir)
+void MovePlayerX(struct Player *player, float moveSpeed)
 {
-    player->moveX += moveDir;
+    player->moveX += moveSpeed;
 }
 
-void MovePlayerY(struct Player *player, float moveDir)
+void MovePlayerY(struct Player *player, float moveSpeed)
 {
-	player->moveY += moveDir;
+	player->moveY += moveSpeed;
 }
