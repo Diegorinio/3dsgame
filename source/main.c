@@ -62,7 +62,6 @@ int main(int argc, char **argv)
 		//render
 		// ShowMeInfo(MainScore);
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-		C2D_TargetClear(top, clrClear);
 
 		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
 		u32 kDown = hidKeysDown();
@@ -120,6 +119,8 @@ int main(int argc, char **argv)
 
 		//Draw on top
 		C2D_SceneBegin(top);
+
+		C2D_TargetClear(top, clrClear);
 		
 		//player
 		DrawPlayer(&MainPlayer);
