@@ -54,7 +54,7 @@ bool TriEnemyCheckCollisionsWithPlayer(struct TriEnemy *enemy, struct Player *pl
 {
 	if(player->PlayerCollidersX[0] >= enemy->EnemyCollidersX[0] && player->PlayerCollidersX[1] <= enemy->EnemyCollidersX[1])
 	{
-		if(player->PlayerCollidersY <= enemy->EnemyCollidersY)
+		if(player->PlayerCollidersY[0] <= enemy->EnemyCollidersY)
 		{
 			return true;
 		}

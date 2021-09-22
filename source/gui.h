@@ -17,7 +17,7 @@ void DrawMenu(int score)
     staticTextBuf = C2D_TextBufNew(128);
     C2D_TextParse(&Txt, staticTextBuf, scr);
     C2D_TextOptimize(&Txt);
-    C2D_DrawText(&Txt, 0, 120.0f, 8.0f, 1.0f, 1.0f, 1.0f);
+    C2D_DrawText(&Txt, 15, 120.0f, 8.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void ShowMeInfo(int score)

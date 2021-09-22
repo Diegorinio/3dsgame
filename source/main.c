@@ -1,8 +1,3 @@
-/*
-	Hello World example made by Aurelio Mannara for libctru
-	This code was modified for the last time on: 12/12/2014 21:00 UTC+1
-*/
-
 #include <3ds.h>
 #include <stdio.h>
 #include <citro2d.h>
@@ -47,8 +42,6 @@ int main(int argc, char **argv)
 	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
 	C2D_Prepare();
-
-	initMenu(MainScore);
 	
 	// consoleInit(GFX_BOTTOM, NULL);
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
@@ -87,20 +80,38 @@ int main(int argc, char **argv)
 		{
 
 		}
+		if(kHeld & KEY_UP)
+		{
+			if(MainPlayer.PlayerCollidersY[0] > -100)
+			{
+				MovePlayerY(&MainPlayer, -10);
+			}
+		}
+
+		if(kHeld & KEY_DOWN)
+		{
+			if(MainPlayer.PlayerCollidersY[0] < 100)
+			{
+				MovePlayerY(&MainPlayer, 10);
+			}
+			else
+			{
+				MovePlayerY(&MainPlayer, 0);
+			}
+		}
 		if(kHeld & KEY_RIGHT)
 		{
 			if(MainPlayer.PlayerCollidersX[1] < SCREEN_WIDTH)
 			{
-				MovePlayer(&MainPlayer, 5);
+				MovePlayerX(&MainPlayer, 10);
 			}
 		}
 		if(kHeld & KEY_LEFT)
 		{
 			if(MainPlayer.PlayerCollidersX[0] >0)
 			{
-				MovePlayer(&MainPlayer, -5);
+				MovePlayerX(&MainPlayer, -10);
 			}
-			MoveSprite(1);
 		}
 		if(kHeld & KEY_DOWN)
 		{
@@ -133,8 +144,11 @@ int main(int argc, char **argv)
 		//draw on bottom
 		C2D_TargetClear(bottom, clrClear);
 		C2D_SceneBegin(bottom);
-		DrawMenu(MainScore);
-		DrawSprite(1);
+		// consoleInit(GFX_BOTTOM, NULL);
+		// printf("%d, %f", MainPlayer.PlayerCollidersY[0] < 100,MainPlayer.PlayerCollidersY[1]);
+		// gfxFlushBuffers();
+		// gfxSwapBuffers();
+		// DrawMenu(MainScore);
 		C3D_FrameEnd(0);
 	}
 	
