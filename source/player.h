@@ -14,9 +14,9 @@ struct Player
 void SetPlayer(struct Player *player)
 {
 	player->width = 25;
-	player->height = 2;
+	player->height = 25;
 	player->posX = SCREEN_WIDTH/2;
-	player->posY = SCREEN_HEIGHT/2;
+	player->posY = SCREEN_HEIGHT-player->height;
 	player->moveX = 0;
 	player->moveY = 0;
 	player->PlayerCollidersX[0] = SCREEN_WIDTH/2 - player->width;

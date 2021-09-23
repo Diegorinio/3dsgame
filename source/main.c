@@ -83,22 +83,22 @@ int main(int argc, char **argv)
 
 		if(kHeld & KEY_UP)
 		{
-			if(MainPlayer.PlayerCollidersY[0] > -100)
-			{
-				MovePlayerY(&MainPlayer, -5);
-			}
+			// if(MainPlayer.PlayerCollidersY[0] > -100)
+			// {
+			// 	MovePlayerY(&MainPlayer, -5);
+			// }
 		}
 
 		if(kHeld & KEY_DOWN)
 		{
-			if(MainPlayer.PlayerCollidersY[0] < 100)
-			{
-				MovePlayerY(&MainPlayer, 5);
-			}
-			else
-			{
-				MovePlayerY(&MainPlayer, 0);
-			}
+			// if(MainPlayer.PlayerCollidersY[0] < 100)
+			// {
+			// 	MovePlayerY(&MainPlayer, 5);
+			// }
+			// else
+			// {
+			// 	MovePlayerY(&MainPlayer, 0);
+			// }
 		}
 		if(kHeld & KEY_RIGHT)
 		{
@@ -136,8 +136,13 @@ int main(int argc, char **argv)
 		}
 
 		// C2D_DrawRectangle(SCREEN_WIDTH - 100, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
-d);
- %f", MainPlayer.PlayerCollidersY[0] < 100,MainPlayer.PlayerCollidersY[1]);
+
+		
+		//draw on bottom
+		C2D_TargetClear(bottom, clrClear);
+		C2D_SceneBegin(bottom);
+		// consoleInit(GFX_BOTTOM, NULL);
+		// printf("%d, %f", MainPlayer.PlayerCollidersY[0] < 100,MainPlayer.PlayerCollidersY[1]);
 		// gfxFlushBuffers();
 		// gfxSwapBuffers();
 		// DrawMenu(MainScore);
