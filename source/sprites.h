@@ -10,13 +10,12 @@ typedef struct
 } Sprite;
 
 C2D_SpriteSheet spriteSheet;
-Sprite sprites[2];
-static size_t numSprites = 2;
+Sprite sprites[3];
 void initSprites(struct Player *player)
 {
 	size_t numImages = C2D_SpriteSheetCount(spriteSheet);
 
-	for(size_t i = 0; i< 2; i++)
+	for(size_t i = 0; i<= numImages; i++)
 	{
 		Sprite* sprite = &sprites[i];
 		C2D_SpriteFromSheet(&sprite->spr, spriteSheet, i);

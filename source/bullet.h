@@ -7,8 +7,14 @@ typedef struct Bullet
     float posX, posY;
     float moveX, moveY;
     float CollidersX[2];
+    bool isActive;
     float ColliderY;
 };
+
+void DisableShoot(struct Bullet *bullet)
+{
+    bullet->isActive = false;
+}
 
 void SetBullet(struct Bullet *bullet, struct Player *player)
 {
@@ -26,13 +32,19 @@ void BulletCheckPosition(struct Bullet *bullet)
     bullet->ColliderY = bullet->posX + 2 + bullet->moveY;
 }
 
+void AllowToShoot(struct Bullet *bullet)
+{
+    bullet->isActive = true;
+}
+
 void DrawBullet(struct Bullet *bullet)
 {
+
     C2D_SpriteSetPos(bullet->sprite, bullet->posX, bullet->posY + bullet->moveY);
     C2D_DrawSprite(bullet->sprite);
 }
 
 void moveBullet(struct Bullet *bullet, float bulletMoveDirSpeed)
 {
-    bullet->moveY += bulletMoveDirSpeed;
+    bullet->moveY += -bulletMoveDirSpeed;
 }

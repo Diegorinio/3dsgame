@@ -1,3 +1,4 @@
 --atlas -f rgba8888 -z auto
 player_ship.png
+rocket.png
 enemyBlack1.png

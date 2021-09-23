@@ -3,6 +3,7 @@
 #include <citro2d.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 #include <assert.h>
 #include "player.h"
@@ -35,13 +36,6 @@ int main(int argc, char **argv)
 	struct TriEnemy Enemy;
 	TriSetEnemy(&Enemy);
 
-	struct Bullet Rocket[99];
-	// SetBullet(&Rocket, &MainPlayer);
-	// Rocket.sprite = &sprites[1].spr;
-	bool isRocketExist = false;
-	int rocketCount=0;
-	
-	
 	int MainScore;
 
 	romfsInit();
@@ -77,16 +71,16 @@ int main(int argc, char **argv)
 		touchPosition touch;
 
 		hidTouchRead(&touch);
-		// printf("\x1b[2;0H%03d; %03d", touch.px, touch.py);
 		if(kDown & KEY_A)
 		{
-			SetBullet(&Rocket, &MainPlayer);
-			isRocketExist = true;
+			
 		}
+
 		if(kDown & KEY_B)
 		{
 
 		}
+
 		if(kHeld & KEY_UP)
 		{
 			if(MainPlayer.PlayerCollidersY[0] > -100)
@@ -126,13 +120,7 @@ int main(int argc, char **argv)
 
 		C2D_TargetClear(top, clrClear);
 		
-		if(isRocketExist)
-		{
-			BulletCheckPosition(&Rocket);
-			DrawBullet(&Rocket);
-			moveBullet(&Rocket, -5);
-		}
-
+		
 		//player
 		DrawPlayer(&MainPlayer);
 		PlayerCheckPosition(&MainPlayer);
@@ -146,14 +134,10 @@ int main(int argc, char **argv)
 		{
 			MainScore -=1;
 		}
-		C2D_DrawRectangle(SCREEN_WIDTH - 100, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
 
-		
-		//draw on bottom
-		C2D_TargetClear(bottom, clrClear);
-		C2D_SceneBegin(bottom);
-		// consoleInit(GFX_BOTTOM, NULL);
-		// printf("%d, %f", MainPlayer.PlayerCollidersY[0] < 100,MainPlayer.PlayerCollidersY[1]);
+		// C2D_DrawRectangle(SCREEN_WIDTH - 100, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
+d);
+ %f", MainPlayer.PlayerCollidersY[0] < 100,MainPlayer.PlayerCollidersY[1]);
 		// gfxFlushBuffers();
 		// gfxSwapBuffers();
 		// DrawMenu(MainScore);
