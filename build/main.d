@@ -104,7 +104,7 @@ main.o: C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/main.c \
  C:/devkitPro/libctru/include/c2d/text.h \
  C:/devkitPro/libctru/include/c2d/font.h \
  C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/player.h \
- C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/enemytriangle.h \
+ C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/enemy.h \
  C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/gui.h \
  C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/sprites.h \
  C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/bullet.h
@@ -213,7 +213,7 @@ C:/devkitPro/libctru/include/c2d/sprite.h:
 C:/devkitPro/libctru/include/c2d/text.h:
 C:/devkitPro/libctru/include/c2d/font.h:
 C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/player.h:
-C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/enemytriangle.h:
+C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/enemy.h:
 C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/gui.h:
 C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/sprites.h:
 C:/Users/zbysl/OneDrive/Pulpit/3dsgame/source/bullet.h:

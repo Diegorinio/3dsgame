@@ -7,7 +7,7 @@
 #include <time.h>
 #include <assert.h>
 #include "player.h"
-#include "enemytriangle.h"
+#include "enemy.h"
 #include "gui.h"
 #include "sprites.h"
 #include "bullet.h"
@@ -33,8 +33,8 @@ int main(int argc, char **argv)
 	SetPlayer(&MainPlayer);
 	
 	//initialize Enemy
-	struct TriEnemy Enemy;
-	TriSetEnemy(&Enemy);
+	struct Enemy Enemy;
+	SetEnemy(&Enemy);
 
 	int MainScore;
 
@@ -52,7 +52,10 @@ int main(int argc, char **argv)
 	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 	if(!spriteSheet) svcBreak(USERBREAK_PANIC);
 
-	initSprites(&MainPlayer);
+	initSprites(&MainPlayer, &Enemy);
+
+
+	initMenu();
 
 	// Main loop
 	while (aptMainLoop())
@@ -73,7 +76,8 @@ int main(int argc, char **argv)
 		hidTouchRead(&touch);
 		if(kDown & KEY_A)
 		{
-			
+			// PlayerSetSprite(&MainPlayer, &sprites[1].spr);
+			MainPlayer.sprite = &sprites[1].spr;
 		}
 
 		if(kDown & KEY_B)
@@ -102,16 +106,16 @@ int main(int argc, char **argv)
 		}
 		if(kHeld & KEY_RIGHT)
 		{
-			if(MainPlayer.PlayerCollidersX[1] < SCREEN_WIDTH)
+			if(MainPlayer.posX < SCREEN_WIDTH - MainPlayer.width)
 			{
 				MovePlayerX(&MainPlayer, 5);
 			}
 		}
 		if(kHeld & KEY_LEFT)
 		{
-			if(MainPlayer.PlayerCollidersX[0] >0)
+			if(MainPlayer.posX > MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, -10);
+				MovePlayerX(&MainPlayer, -5);
 			}
 		}
 
@@ -126,11 +130,11 @@ int main(int argc, char **argv)
 		PlayerCheckPosition(&MainPlayer);
 
 		//enemy
-		TriDrawEnemy(&Enemy);
-		Enemy.moveY +=3;
-		TriEnemyCheckCollisions(&Enemy);
+		DrawEnemy(&Enemy);
+		Enemy.moveY +=0.4f;
+		EnemyCheckCollisions(&Enemy);
 		
-		if(TriEnemyCheckCollisionsWithPlayer(&Enemy, &MainPlayer))
+		if(EnemyCheckCollisionsWithPlayer(&Enemy, &MainPlayer))
 		{
 			MainScore -=1;
 		}
@@ -139,13 +143,13 @@ int main(int argc, char **argv)
 
 		
 		//draw on bottom
-		C2D_TargetClear(bottom, clrClear);
-		C2D_SceneBegin(bottom);
-		// consoleInit(GFX_BOTTOM, NULL);
-		// printf("%d, %f", MainPlayer.PlayerCollidersY[0] < 100,MainPlayer.PlayerCollidersY[1]);
-		// gfxFlushBuffers();
-		// gfxSwapBuffers();
+		// C2D_SceneBegin(bottom);
+		// C2D_TargetClear(bottom, clrClear);
 		// DrawMenu(MainScore);
+		consoleInit(GFX_BOTTOM, NULL);
+		printf("Score:%d enemyColX:%f enemyColY:%f playerColX:%f playerColY:%f", MainScore, Enemy.posX, Enemy.posY, MainPlayer.PlayerCollidersX[0], MainPlayer.PlayerCollidersX[1]);
+		gfxFlushBuffers();
+		gfxSwapBuffers();
 		C3D_FrameEnd(0);
 	}
 	
