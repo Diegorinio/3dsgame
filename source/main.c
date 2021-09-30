@@ -75,7 +75,14 @@ int main(int argc, char **argv)
 		if(kDown & KEY_A)
 		{
 			// PlayerSetSprite(&MainPlayer, &sprites[1].spr);
-			MainPlayer.sprite = &sprites[1].spr;
+			if(MainPlayer.sprite == &sprites[1].spr)
+			{
+				MainPlayer.sprite = &sprites[0].spr;
+			}
+			else if(MainPlayer.sprite == &sprites[0].spr)
+			{
+				MainPlayer.sprite = &sprites[1].spr;
+			}
 		}
 
 		if(kDown & KEY_B)

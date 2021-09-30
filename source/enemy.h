@@ -63,7 +63,7 @@ bool EnemyCheckCollisionsWithPlayer(struct Enemy *enemy, struct Player *player)
 {
 	if(player->PlayerCollidersX[0] < enemy->EnemyCollidersX[0] && player->PlayerCollidersX[1] > enemy->EnemyCollidersX[1])
 	{
-		if(enemy->EnemyColliderY >= 100)
+		if(enemy->EnemyColliderY >= 100 && enemy->sprite == player->sprite)
 		{
 			return true;
 		}
