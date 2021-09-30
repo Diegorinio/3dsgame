@@ -22,8 +22,8 @@ void initSprites(struct Player *player, struct Enemy *enemy)
 		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&sprite->spr, SCREEN_WIDTH/2, SCREEN_HEIGHT-25);
 	}
-	player->sprite = &sprites[GenerateRandomInt(0, numImages)].spr;
-	enemy->sprite = &sprites[GenerateRandomInt(0, numImages)].spr;
+	player->sprite = &sprites[GenerateRandomInt(0, 3)].spr;
+	enemy->sprite = &sprites[GenerateRandomInt(0, 3)].spr;
 }
 
 void DrawSprite(int id)

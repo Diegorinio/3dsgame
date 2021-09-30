@@ -113,14 +113,14 @@ int main(int argc, char **argv)
 		{
 			if(MainPlayer.posX < SCREEN_WIDTH - MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, 7);
+				MovePlayerX(&MainPlayer, 4);
 			}
 		}
 		if(kHeld & KEY_LEFT)
 		{
 			if(MainPlayer.posX > MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, -7);
+				MovePlayerX(&MainPlayer, -4);
 			}
 		}
 
@@ -150,17 +150,16 @@ int main(int argc, char **argv)
 			RespawnEnemy(&Enemy, &sprites[GenerateRandomInt(0,1)].spr);
 		}
 
-		// C2D_DrawRectangle(SCREEN_WIDTH - 100, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
-
 		
 		//draw on bottom
-		// C2D_SceneBegin(bottom);
-		// C2D_TargetClear(bottom, clrClear);
-		// DrawMenu(MainScore);
-		consoleInit(GFX_BOTTOM, NULL);
-		printf("Score:%d enemyColX1:%f  enemyColX2:%f enemyColY:%f playerColX1:%f playercols2:%f playerColY:%f", MainScore, Enemy.EnemyCollidersX[0], Enemy.EnemyCollidersX[1], Enemy.EnemyColliderY, MainPlayer.PlayerCollidersX[0], MainPlayer.PlayerCollidersX[1], MainPlayer.PlayerColliderY);
-		gfxFlushBuffers();
-		gfxSwapBuffers();
+		C2D_SceneBegin(bottom);
+		C2D_TargetClear(bottom, clrClear);
+		DrawMenu(MainScore);
+		// consoleInit(GFX_BOTTOM, NULL);
+		// printf("Score:%d enemyColX1:%f  enemyColX2:%f enemyColY:%f playerColX1:%f playercols2:%f playerColY:%f", MainScore, Enemy.EnemyCollidersX[0], Enemy.EnemyCollidersX[1], Enemy.EnemyColliderY, MainPlayer.PlayerCollidersX[0], MainPlayer.PlayerCollidersX[1], MainPlayer.PlayerColliderY);
+		
+		// gfxFlushBuffers();
+		// gfxSwapBuffers();
 		C3D_FrameEnd(0);
 	}
 	
