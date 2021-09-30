@@ -10,7 +10,7 @@ typedef struct
 } Sprite;
 
 C2D_SpriteSheet spriteSheet;
-Sprite sprites[3];
+Sprite sprites[4];
 void initSprites(struct Player *player, struct Enemy *enemy)
 {
 	size_t numImages = C2D_SpriteSheetCount(spriteSheet);
@@ -22,8 +22,8 @@ void initSprites(struct Player *player, struct Enemy *enemy)
 		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 		C2D_SpriteSetPos(&sprite->spr, SCREEN_WIDTH/2, SCREEN_HEIGHT-25);
 	}
-	player->sprite = &sprites[0].spr;
-	enemy->sprite = &sprites[2].spr;
+	player->sprite = &sprites[GenerateRandomInt(0, numImages)].spr;
+	enemy->sprite = &sprites[GenerateRandomInt(0, numImages)].spr;
 }
 
 void DrawSprite(int id)

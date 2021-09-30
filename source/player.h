@@ -21,6 +21,7 @@ void SetPlayer(struct Player *player)
 	player->moveY = 0;
 	player->PlayerCollidersX[0] = player->moveX - player->width;
 	player->PlayerCollidersX[1] = player->moveX + player->width;
+	player->PlayerColliderY = player->posY + 5;
 };
 
 void PlayerCheckPosition(struct Player *player)

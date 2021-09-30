@@ -11,12 +11,10 @@
 #include "gui.h"
 #include "sprites.h"
 #include "bullet.h"
+#include "functions.h"
 
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 240
-
-
-int GenerateRandomInt(int min, int max);
 
 
 int main(int argc, char **argv)
@@ -108,14 +106,14 @@ int main(int argc, char **argv)
 		{
 			if(MainPlayer.posX < SCREEN_WIDTH - MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, 5);
+				MovePlayerX(&MainPlayer, 7);
 			}
 		}
 		if(kHeld & KEY_LEFT)
 		{
 			if(MainPlayer.posX > MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, -5);
+				MovePlayerX(&MainPlayer, -7);
 			}
 		}
 
@@ -131,12 +129,18 @@ int main(int argc, char **argv)
 
 		//enemy
 		DrawEnemy(&Enemy);
-		Enemy.moveY +=0.4f;
+		Enemy.moveY += 1;
 		EnemyCheckCollisions(&Enemy);
+
+		if(Enemy.EnemyColliderY >= 150)
+		{
+			RespawnEnemy(&Enemy, &sprites[GenerateRandomInt(0,1)].spr);
+		}
 		
 		if(EnemyCheckCollisionsWithPlayer(&Enemy, &MainPlayer))
 		{
-			MainScore -=1;
+			MainScore+=1;
+			RespawnEnemy(&Enemy, &sprites[GenerateRandomInt(0,1)].spr);
 		}
 
 		// C2D_DrawRectangle(SCREEN_WIDTH - 100, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
@@ -147,7 +151,7 @@ int main(int argc, char **argv)
 		// C2D_TargetClear(bottom, clrClear);
 		// DrawMenu(MainScore);
 		consoleInit(GFX_BOTTOM, NULL);
-		printf("Score:%d enemyColX:%f enemyColY:%f playerColX:%f playerColY:%f", MainScore, Enemy.posX, Enemy.posY, MainPlayer.PlayerCollidersX[0], MainPlayer.PlayerCollidersX[1]);
+		printf("Score:%d enemyColX1:%f  enemyColX2:%f enemyColY:%f playerColX1:%f playercols2:%f playerColY:%f", MainScore, Enemy.EnemyCollidersX[0], Enemy.EnemyCollidersX[1], Enemy.EnemyColliderY, MainPlayer.PlayerCollidersX[0], MainPlayer.PlayerCollidersX[1], MainPlayer.PlayerColliderY);
 		gfxFlushBuffers();
 		gfxSwapBuffers();
 		C3D_FrameEnd(0);
@@ -160,10 +164,4 @@ int main(int argc, char **argv)
 	gfxExit();
 	romfsExit();
 	return 0;
-}
-
-int GenerateRandomInt(int min, int max)
-{
-	srand(time(0));
-	return (rand() % (max-min+1))+min;
 }

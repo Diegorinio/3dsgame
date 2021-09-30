@@ -1,5 +1,3 @@
 --atlas -f rgba8888 -z auto
 red.png
 yellow.png
-enemy_red.png
-enemy_yellow.png

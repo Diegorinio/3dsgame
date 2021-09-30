@@ -4,13 +4,13 @@
 struct Enemy
 {
 	C2D_Sprite *sprite;
+	char *color;
 	float posX, posY;
 	float width, height;
 	float RandomEnemyXPosition;
 	float moveX, moveY;
 	float EnemyCollidersX[2]; 
-	float EnemyCollidersY;
-	u32 Color;
+	float EnemyColliderY;
 };
 
 void SetEnemy(struct Enemy *enemy)
@@ -20,13 +20,26 @@ void SetEnemy(struct Enemy *enemy)
 	enemy->posX = enemy->RandomEnemyXPosition;
 	enemy->posY = 0;
 	enemy->width = 1;
-	enemy->height = 1;
-	enemy->Color = C2D_Color32(0xFF, 0x00, 0x00, 0xFF);
+	enemy->height = 7;
 	enemy->moveX = 0;
 	enemy->moveY = 0;
 	enemy->EnemyCollidersX[0] = enemy->posX;
 	enemy->EnemyCollidersX[1] = enemy->posX + enemy->width;
-	enemy->EnemyCollidersY = enemy->posY + enemy->width;
+	enemy->EnemyColliderY = enemy->posY + enemy->height;
+}
+
+void RespawnEnemy(struct Enemy *enemy, C2D_Sprite *sprite)
+{
+	int randomEnemyX = GenerateRandomInt(80, SCREEN_WIDTH);
+	enemy->RandomEnemyXPosition = randomEnemyX;
+	enemy->posX = enemy->RandomEnemyXPosition;
+	enemy->posY = 0;
+	enemy->moveY = 0;
+	enemy->sprite = sprite;
+	enemy->EnemyCollidersX[0] = enemy->posX;
+	enemy->EnemyCollidersX[1] = enemy->posX + enemy->width;
+	enemy->EnemyColliderY = enemy->posY + enemy->height;
+
 }
 
 void DrawEnemy(struct Enemy *enemy)
@@ -43,20 +56,14 @@ void EnemyCheckCollisions(struct Enemy *enemy)
 {
 		//update enemy position
 	enemy->posY = enemy->moveY;
-	enemy->EnemyCollidersY = enemy->posY + enemy->width;
-
-	if(enemy->EnemyCollidersY >= SCREEN_HEIGHT+10)
-	{
-		enemy->moveY = -15;
-		SetEnemy(enemy);
-	}
+	enemy->EnemyColliderY = enemy->posY;
 }
 
 bool EnemyCheckCollisionsWithPlayer(struct Enemy *enemy, struct Player *player)
 {
-	if(player->PlayerCollidersX[0] >= enemy->EnemyCollidersX[0] && player->PlayerCollidersX[1] <= enemy->EnemyCollidersX[1])
+	if(player->PlayerCollidersX[0] < enemy->EnemyCollidersX[0] && player->PlayerCollidersX[1] > enemy->EnemyCollidersX[1])
 	{
-		if(player->PlayerColliderY <= enemy->EnemyCollidersY)
+		if(enemy->EnemyColliderY >= 100)
 		{
 			return true;
 		}
