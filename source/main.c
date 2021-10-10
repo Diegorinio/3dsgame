@@ -155,8 +155,9 @@ int main(int argc, char **argv)
 		C2D_SceneBegin(bottom);
 		C2D_TargetClear(bottom, clrClear);
 		DrawMenu(MainScore);
+		// C2D_DrawRectangle(SCREEN_WIDTH - 50, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
 		// consoleInit(GFX_BOTTOM, NULL);
-		// printf("Score:%d enemyColX1:%f  enemyColX2:%f enemyColY:%f playerColX1:%f playercols2:%f playerColY:%f", MainScore, Enemy.EnemyCollidersX[0], Enemy.EnemyCollidersX[1], Enemy.EnemyColliderY, MainPlayer.PlayerCollidersX[0], MainPlayer.PlayerCollidersX[1], MainPlayer.PlayerColliderY);
+		// printf("Score:%d ", MainScore);
 		
 		// gfxFlushBuffers();
 		// gfxSwapBuffers();
