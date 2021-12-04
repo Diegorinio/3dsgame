@@ -113,14 +113,14 @@ int main(int argc, char **argv)
 		{
 			if(MainPlayer.posX < SCREEN_WIDTH - MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, 4);
+				MovePlayerX(&MainPlayer, 2.5f);
 			}
 		}
 		if(kHeld & KEY_LEFT)
 		{
 			if(MainPlayer.posX > MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, -4);
+				MovePlayerX(&MainPlayer, -2.5f);
 			}
 		}
 
@@ -153,8 +153,8 @@ int main(int argc, char **argv)
 		
 		//draw on bottom
 		C2D_SceneBegin(bottom);
-		C2D_TargetClear(bottom, clrClear);
-		DrawMenu(MainScore);
+		C2D_TargetClear(bottom, clrRed);
+		DrawGameGUI(MainScore);
 		// C2D_DrawRectangle(SCREEN_WIDTH - 50, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
 		// consoleInit(GFX_BOTTOM, NULL);
 		// printf("Score:%d ", MainScore);
