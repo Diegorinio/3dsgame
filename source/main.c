@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 {
 	// initialize gameplay
 	static bool IsPlayable = true;
+	static bool IsMenu = true;
 	//initialize Player
 	struct Player MainPlayer;
 	SetPlayer(&MainPlayer);
@@ -55,8 +56,8 @@ int main(int argc, char **argv)
 		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
 		u32 kDown = hidKeysDown();
 		u32 kHeld = hidKeysHeld();
-		if (kDown & KEY_START) break; // break 
-		if(IsPlayable)
+		// if (kDown & KEY_START) break; // break 
+		if(IsPlayable && !IsMenu)
 		{
 					//Scan all the inputs. This should be done oncein order to return to hbmenu
 		if(kDown & KEY_A)
@@ -147,12 +148,10 @@ int main(int argc, char **argv)
 		//draw on bottom
 		C2D_SceneBegin(bottom);
 		C2D_TargetClear(bottom, CLEAR);
-		DrawGameGUI(MainScore, &MainPlayer);
+		DrawGameScoreAndHelth(MainScore, &MainPlayer);
 		}
-		else
+		else if(!IsPlayable)
 		{
-			touchPosition touch;
-			hidTouchRead(&touch);
 			C2D_SceneBegin(top);
 			C2D_TargetClear(top, CLEAR);
 			DrawGameOverScreen();
@@ -161,13 +160,22 @@ int main(int argc, char **argv)
 
 			C2D_SceneBegin(bottom);
 			C2D_TargetClear(bottom, WHITE);
-			C2D_DrawRectangle(100, 100,1,50,50,BLACK,BLACK,BLACK,BLACK);
-			// if(touch.px >=)
-			// if(kDown && KEY_A)
-			// {
-			// 	IsPlayable = true;
-			// 	PlayerSetHealth(&MainPlayer, 3);
-			// }
+			DrawTextOnScreen("A) Again\n START) EXIT", 100, 100,1);
+		}
+		if(IsMenu)
+		{
+			C2D_SceneBegin(top);
+			C2D_TargetClear(top, WHITE);
+    		DrawMenu();
+
+    		C2D_SceneBegin(bottom);
+			C2D_TargetClear(bottom, WHITE);
+    		DrawTextOnScreen("Press START", 70, SCREEN_HEIGHT/2,1);
+
+			if(kDown && KEY_START)
+			{
+				IsMenu = false;
+			}
 		}
 		C3D_FrameEnd(0);	
 	}

@@ -14,7 +14,7 @@ static C2D_Text Message;
 //     C2D_DrawText(&Txt, 1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1.0f, 1.0f, 1.0f);
 // }
 
-static void DrawGameGUI(int score,struct Player *player)
+static void DrawGameScoreAndHelth(int score,struct Player *player)
 {
     //draw score element
     char drawScore[] = "";
@@ -33,6 +33,17 @@ static void DrawGameGUI(int score,struct Player *player)
     // C2D_DrawRectangle(50,5,1,50,50,RED,RED,RED,RED);
 }
 
+// static void DrawMainMenu()
+// {
+//     C2D_SceneBegin(top);
+// 	C2D_TargetClear(top, WHITE);
+//     DrawTextOnScreen("Colors Mania\n 1.0", 100,50);
+
+//     C2D_SceneBegin(bottom);
+// 	C2D_TargetClear(bottom, WHITE);
+//     DrawTextOnScreen("Press START", 100, 80);
+// }
+
 static void DrawGameOverScreen()
 {
     char GameOver[] = "Game Over";
@@ -41,12 +52,21 @@ static void DrawGameOverScreen()
     C2D_TextOptimize(&Message);
     C2D_DrawText(&Message, 1, 50, 50, 1,1,1);
 }
-// static void DrawTextOnScreen(char* text[], float posX, float posY)
-// {
-//     C2D_Text *ScreenText;
-//     char Text[] = "";
-//     strcpy(Text, text);
-//     C2D_TextParse(&ScreenText, staticTextBuf, Text);
-//     C2D_TextOptimize(&ScreenText);
-//     C2D_DrawText(&ScreenText, 1, posX, posY, 1,1,1);
-// }
+
+static void DrawMenu()
+{
+    char title[] = "Crazy Colors";
+    staticTextBuf = C2D_TextBufNew(128);
+    C2D_TextParse(&Message, staticTextBuf, title);
+    C2D_TextOptimize(&Message);
+    C2D_DrawText(&Message, 1, 50, SCREEN_HEIGHT/2,1,2,2);
+}
+static void DrawTextOnScreen(char text[], float posX, float posY, float scale)
+{
+    char Text[] = "";
+    strcpy(Text, text);
+    staticTextBuf = C2D_TextBufNew(128);
+    C2D_TextParse(&Message, staticTextBuf, Text);
+    C2D_TextOptimize(&Message);
+    C2D_DrawText(&Message, 1, posX, posY, 1,scale,scale);
+}
