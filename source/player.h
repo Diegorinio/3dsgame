@@ -2,16 +2,20 @@
 
 struct Player 
 {
+	int PlayerHP;
 	C2D_Sprite *sprite;
 	float width, height;
 	float posX, posY;
 	float moveX, moveY;
 	float PlayerCollidersX[2];
 	float PlayerColliderY;
+	float PlayerSpeed;
 };
 
 void SetPlayer(struct Player *player)
 {
+	player->PlayerHP = 3;
+	player->PlayerSpeed = 3;
 	player->width = 15;
 	player->height = 15;
 	player->posX = SCREEN_WIDTH/2;
@@ -28,26 +32,30 @@ void PlayerCheckPosition(struct Player *player)
 	player->posX = SCREEN_WIDTH/2 + player->moveX;
 	player->PlayerCollidersX[0] = player->posX - player->width;
 	player->PlayerCollidersX[1] = player->posX + player->width;
-	// player->PlayerCollidersX[0] = player->v1x + player->moveX;
-	// player->PlayerCollidersX[1] = player->v1x + player->width +player->moveX;
 }
 
 void DrawPlayer(struct Player *player)
 {
 	C2D_SpriteSetPos(player->sprite, player->posX, player->posY);
-	C2D_DrawSprite(player->sprite);
-	// C2D_DrawRectangle(player->v1x + player->moveX, player->v1y, player->depth, player->width, player->height, player->Color, player->Color, player->Color, player->Color);
-	// C2D_DrawTriangle(player->v1x+player->moveX, player->v1y, player->Color, 
-	// 		player->v2x+player->moveX,  player->v2y, player->Color,
-	// 		player->v3x+player->moveX, player->v3y, player->Color, 1);		
-};
-
-void MovePlayerX(struct Player *player, float moveSpeed)
-{
-    player->moveX += moveSpeed;
+	C2D_DrawSprite(player->sprite);	
 }
 
-void MovePlayerY(struct Player *player, float moveSpeed)
+void PlayerLoseHealth(struct Player *player)
 {
-	player->moveY += moveSpeed;
+	player->PlayerHP-=1;
+}
+
+void PlayerSetHealth(struct Player *player, int hp)
+{
+	player->PlayerHP = hp;
+}
+
+void MovePlayerX(struct Player *player, float speed)
+{
+    player->moveX += speed;
+}
+
+void MovePlayerY(struct Player *player)
+{
+	player->moveY += player->PlayerSpeed;
 }

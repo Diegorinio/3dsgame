@@ -38,7 +38,6 @@ void RespawnEnemy(struct Enemy *enemy, C2D_Sprite *sprite)
 	enemy->EnemyCollidersX[0] = enemy->posX;
 	enemy->EnemyCollidersX[1] = enemy->posX + enemy->width;
 	enemy->EnemyColliderY = enemy->posY + enemy->height;
-
 }
 
 void DrawEnemy(struct Enemy *enemy)
@@ -62,11 +61,24 @@ bool EnemyCheckCollisionsWithPlayer(struct Enemy *enemy, struct Player *player)
 {
 	if(player->PlayerCollidersX[0] < enemy->EnemyCollidersX[0] && player->PlayerCollidersX[1] > enemy->EnemyCollidersX[1])
 	{
-		if(enemy->EnemyColliderY >= 100 && enemy->sprite == player->sprite)
+		if(enemy->EnemyColliderY >= 100)
 		{
-			return true;
+			if(enemy->sprite == player->sprite)
+			{
+				return true;
+			}
+			else
+			{
+				SetEnemy(enemy);
+				PlayerLoseHealth(player);
+			}
 		}
 		return false;
 	}
 	return false;
+}
+
+void DestroyMe(struct Enemy *enemy)
+{
+	
 }

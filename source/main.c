@@ -16,7 +16,8 @@
 
 int main(int argc, char **argv)
 {
-	
+	// initialize gameplay
+	static bool IsPlayable = true;
 	//initialize Player
 	struct Player MainPlayer;
 	SetPlayer(&MainPlayer);
@@ -43,13 +44,9 @@ int main(int argc, char **argv)
 
 	initSprites(&MainPlayer, &Enemy);
 
-
-	initMenu();
-
 	// Main loop
 	while (aptMainLoop())
 	{
-		//Scan all the inputs. This should be done once for each frame
 		hidScanInput();
 
 		//render
@@ -58,10 +55,10 @@ int main(int argc, char **argv)
 		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
 		u32 kDown = hidKeysDown();
 		u32 kHeld = hidKeysHeld();
-		if (kDown & KEY_START) break; // break in order to return to hbmenu
-		touchPosition touch;
-
-		hidTouchRead(&touch);
+		if (kDown & KEY_START) break; // break 
+		if(IsPlayable)
+		{
+					//Scan all the inputs. This should be done oncein order to return to hbmenu
 		if(kDown & KEY_A)
 		{
 			// PlayerSetSprite(&MainPlayer, &sprites[1].spr);
@@ -101,16 +98,16 @@ int main(int argc, char **argv)
 		}
 		if(kHeld & KEY_RIGHT)
 		{
-			if(MainPlayer.posX <  - MainPlayer.width)
+			if(MainPlayer.posX <  SCREEN_WIDTH - MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, 2.5f);
+				MovePlayerX(&MainPlayer, 3);
 			}
 		}
 		if(kHeld & KEY_LEFT)
 		{
 			if(MainPlayer.posX > MainPlayer.width)
 			{
-				MovePlayerX(&MainPlayer, -2.5f);
+				MovePlayerX(&MainPlayer, -3);
 			}
 		}
 
@@ -131,6 +128,7 @@ int main(int argc, char **argv)
 		if(Enemy.EnemyColliderY >= 150)
 		{
 			RespawnEnemy(&Enemy, &sprites[GenerateRandomInt(0,1)].spr);
+			PlayerLoseHealth(&MainPlayer);
 		}
 		
 		if(EnemyCheckCollisionsWithPlayer(&Enemy, &MainPlayer))
@@ -139,18 +137,39 @@ int main(int argc, char **argv)
 			RespawnEnemy(&Enemy, &sprites[GenerateRandomInt(0,1)].spr);
 		}
 
+		if(MainPlayer.PlayerHP <= 0)
+		{
+			IsPlayable = false;
+			// free(&MainPlayer);
+		}
+
 		
 		//draw on bottom
 		C2D_SceneBegin(bottom);
 		C2D_TargetClear(bottom, CLEAR);
-		DrawGameGUI(MainScore);
-		// C2D_DrawRectangle(SCREEN_WIDTH - 50, 0, 0, 50, 50, clrRed, clrRed, clrRed, clrRed);
-		// consoleInit(GFX_BOTTOM, NULL);
-		// printf("Score:%d ", MainScore);
-		
-		// gfxFlushBuffers();
-		// gfxSwapBuffers();
-		C3D_FrameEnd(0);
+		DrawGameGUI(MainScore, &MainPlayer);
+		}
+		else
+		{
+			touchPosition touch;
+			hidTouchRead(&touch);
+			C2D_SceneBegin(top);
+			C2D_TargetClear(top, CLEAR);
+			DrawGameOverScreen();
+			C2D_DrawRectangle(100, 100,1,50,50,BLACK,BLACK,BLACK,BLACK);
+
+
+			C2D_SceneBegin(bottom);
+			C2D_TargetClear(bottom, WHITE);
+			C2D_DrawRectangle(100, 100,1,50,50,BLACK,BLACK,BLACK,BLACK);
+			// if(touch.px >=)
+			// if(kDown && KEY_A)
+			// {
+			// 	IsPlayable = true;
+			// 	PlayerSetHealth(&MainPlayer, 3);
+			// }
+		}
+		C3D_FrameEnd(0);	
 	}
 	
 	
