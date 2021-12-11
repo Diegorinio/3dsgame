@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 		u32 kDown = hidKeysDown();
 		u32 kHeld = hidKeysHeld();
 		// if (kDown & KEY_START) break; // break 
-		if(IsPlayable && !IsMenu)
+		if(IsPlayable)
 		{
 					//Scan all the inputs. This should be done oncein order to return to hbmenu
 		if(kDown & KEY_A)
@@ -72,31 +72,7 @@ int main(int argc, char **argv)
 				MainPlayer.sprite = &sprites[1].spr;
 			}
 		}
-
-		if(kDown & KEY_B)
-		{
-
-		}
-
-		if(kHeld & KEY_UP)
-		{
-			// if(MainPlayer.PlayerCollidersY[0] > -100)
-			// {
-			// 	MovePlayerY(&MainPlayer, -5);
-			// }
-		}
-
-		if(kHeld & KEY_DOWN)
-		{
-			// if(MainPlayer.PlayerCollidersY[0] < 100)
-			// {
-			// 	MovePlayerY(&MainPlayer, 5);
-			// }
-			// else
-			// {
-			// 	MovePlayerY(&MainPlayer, 0);
-			// }
-		}
+		
 		if(kHeld & KEY_RIGHT)
 		{
 			if(MainPlayer.posX <  SCREEN_WIDTH - MainPlayer.width)
@@ -150,7 +126,7 @@ int main(int argc, char **argv)
 		C2D_TargetClear(bottom, CLEAR);
 		DrawGameScoreAndHelth(MainScore, &MainPlayer);
 		}
-		else if(!IsPlayable)
+		if(!IsPlayable)
 		{
 			C2D_SceneBegin(top);
 			C2D_TargetClear(top, CLEAR);
@@ -161,22 +137,29 @@ int main(int argc, char **argv)
 			C2D_SceneBegin(bottom);
 			C2D_TargetClear(bottom, WHITE);
 			DrawTextOnScreen("A) Again\n START) EXIT", 100, 100,1);
-		}
-		if(IsMenu)
-		{
-			C2D_SceneBegin(top);
-			C2D_TargetClear(top, WHITE);
-    		DrawMenu();
-
-    		C2D_SceneBegin(bottom);
-			C2D_TargetClear(bottom, WHITE);
-    		DrawTextOnScreen("Press START", 70, SCREEN_HEIGHT/2,1);
-
-			if(kDown && KEY_START)
+			if(kDown && KEY_A)
 			{
-				IsMenu = false;
+				IsPlayable = true;
+				MainScore = 0;
 			}
+
 		}
+		// if(IsMenu)
+		// {
+		// 	C2D_SceneBegin(top);
+		// 	C2D_TargetClear(top, WHITE);
+    	// 	DrawMenu();
+
+    	// 	C2D_SceneBegin(bottom);
+		// 	C2D_TargetClear(bottom, WHITE);
+    	// 	DrawTextOnScreen("Press START", 70, SCREEN_HEIGHT/2,1);
+
+		// 	if(kDown && KEY_START)
+		// 	{
+		// 		IsPlayable = true;
+		// 		IsMenu = false;
+		// 	}
+		// }
 		C3D_FrameEnd(0);	
 	}
 	
