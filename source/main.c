@@ -73,14 +73,14 @@ int main(int argc, char **argv)
 			}
 		}
 		
-		if(kHeld & KEY_RIGHT)
+		if(kHeld & KEY_RIGHT && IsPlayable)
 		{
 			if(MainPlayer.posX <  SCREEN_WIDTH - MainPlayer.width)
 			{
 				MovePlayerX(&MainPlayer, 3);
 			}
 		}
-		if(kHeld & KEY_LEFT)
+		if(kHeld & KEY_LEFT && IsPlayable)
 		{
 			if(MainPlayer.posX > MainPlayer.width)
 			{
@@ -114,17 +114,11 @@ int main(int argc, char **argv)
 			RespawnEnemy(&Enemy, &sprites[GenerateRandomInt(0,1)].spr);
 		}
 
-		if(MainPlayer.PlayerHP <= 0)
-		{
-			IsPlayable = false;
-			// free(&MainPlayer);
-		}
-
 		
 		//draw on bottom
 		C2D_SceneBegin(bottom);
 		C2D_TargetClear(bottom, CLEAR);
-		DrawGameScoreAndHelth(MainScore, &MainPlayer);
+		DrawGameScoreAndHealth(MainScore, &MainPlayer);
 		}
 		if(!IsPlayable)
 		{
@@ -136,11 +130,14 @@ int main(int argc, char **argv)
 
 			C2D_SceneBegin(bottom);
 			C2D_TargetClear(bottom, WHITE);
-			DrawTextOnScreen("A) Again\n START) EXIT", 100, 100,1);
+			DrawTextOnScreen("A) Play\n START) EXIT", 100, 100,1);
 			if(kDown && KEY_A)
 			{
 				IsPlayable = true;
-				MainScore = 0;
+			}
+			if(kDown && KEY_START)
+			{
+				break;
 			}
 
 		}
@@ -160,14 +157,11 @@ int main(int argc, char **argv)
 		// 		IsMenu = false;
 		// 	}
 		// }
-		C3D_FrameEnd(0);	
-	}
-	
-	
-	
-	C2D_Fini();
+		C3D_FrameEnd(0);
+			C2D_Fini();
 	C3D_Fini();
 	gfxExit();
-	romfsExit();
+	romfsExit();	
+	}
 	return 0;
 }

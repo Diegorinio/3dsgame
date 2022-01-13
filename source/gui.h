@@ -3,6 +3,7 @@
 static C2D_TextBuf staticTextBuf;
 static C2D_Text Txt;
 static C2D_Text ScoreText;
+static C2D_Text hpText;
 static C2D_Text Message;
 // static void DrawMenu(int score)
 // {
@@ -14,7 +15,7 @@ static C2D_Text Message;
 //     C2D_DrawText(&Txt, 1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1.0f, 1.0f, 1.0f);
 // }
 
-static void DrawGameScoreAndHelth(int score,struct Player *player)
+static void DrawGameScoreAndHealth(int score,struct Player *player)
 {
     //draw score element
     char drawScore[] = "";
@@ -25,12 +26,17 @@ static void DrawGameScoreAndHelth(int score,struct Player *player)
     C2D_DrawText(&ScoreText, 1, SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2, 1, 1,1);
 
     //health system
-    int x= 1;
-    for(x;x<=player->PlayerHP;x++)
-    {
-        C2D_DrawRectangle(50+x*10,5,1,5,5,RED,RED,RED,RED);
-    }
-    // C2D_DrawRectangle(50,5,1,50,50,RED,RED,RED,RED);
+    char drawHealth[] = "";
+    sprintf(drawHealth, "%d", player->PlayerHP);
+    C2D_TextParse(&hpText, staticTextBuf, drawHealth);
+    C2D_TextOptimize(&hpText);
+    C2D_DrawText(&hpText,1 ,50,50,1,1,1);
+    // int x= 0;
+    // for(x;x<=player->PlayerHP-1;x++)
+    // {
+    //     C2D_DrawRectangle(50+x*10,5,1,5,5,RED,RED,RED,RED);
+    // }
+    // // C2D_DrawRectangle(50,5,1,50,50,RED,RED,RED,RED);
 }
 
 // static void DrawMainMenu()

@@ -70,7 +70,6 @@ bool EnemyCheckCollisionsWithPlayer(struct Enemy *enemy, struct Player *player)
 			else
 			{
 				SetEnemy(enemy);
-				PlayerLoseHealth(player);
 			}
 		}
 		return false;
