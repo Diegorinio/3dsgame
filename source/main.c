@@ -141,27 +141,10 @@ int main(int argc, char **argv)
 			}
 
 		}
-		// if(IsMenu)
-		// {
-		// 	C2D_SceneBegin(top);
-		// 	C2D_TargetClear(top, WHITE);
-    	// 	DrawMenu();
-
-    	// 	C2D_SceneBegin(bottom);
-		// 	C2D_TargetClear(bottom, WHITE);
-    	// 	DrawTextOnScreen("Press START", 70, SCREEN_HEIGHT/2,1);
-
-		// 	if(kDown && KEY_START)
-		// 	{
-		// 		IsPlayable = true;
-		// 		IsMenu = false;
-		// 	}
-		// }
-		C3D_FrameEnd(0);
-			C2D_Fini();
-	C3D_Fini();
-	gfxExit();
-	romfsExit();	
+			C3D_FrameEnd(0);
 	}
+	C2D_Fini();
+	C3D_Fini();	
+	gfxExit();
 	return 0;
 }

@@ -18,7 +18,7 @@ static C2D_Text Message;
 static void DrawGameScoreAndHealth(int score,struct Player *player)
 {
     //draw score element
-    char drawScore[] = "";
+    char *drawScore = "";
     sprintf(drawScore, "%d", score);
     staticTextBuf = C2D_TextBufNew(128);
     C2D_TextParse(&ScoreText, staticTextBuf, drawScore);
@@ -26,11 +26,11 @@ static void DrawGameScoreAndHealth(int score,struct Player *player)
     C2D_DrawText(&ScoreText, 1, SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2, 1, 1,1);
 
     //health system
-    char drawHealth[] = "";
-    sprintf(drawHealth, "%d", player->PlayerHP);
-    C2D_TextParse(&hpText, staticTextBuf, drawHealth);
-    C2D_TextOptimize(&hpText);
-    C2D_DrawText(&hpText,1 ,50,50,1,1,1);
+    // char drawHealth[5] = "";
+    // sprintf(drawHealth, "%d", player->PlayerHP);
+    // C2D_TextParse(&hpText, staticTextBuf, drawHealth);
+    // C2D_TextOptimize(&hpText);
+    // C2D_DrawText(&hpText,1 ,50,50,1,1,1);
     // int x= 0;
     // for(x;x<=player->PlayerHP-1;x++)
     // {
